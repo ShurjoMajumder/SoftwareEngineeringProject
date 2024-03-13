@@ -84,7 +84,7 @@ internal static class Program
     }
 
     /// <summary>
-    /// 
+    /// Logs records.
     /// </summary>
     /// <param name="logging"></param>
     /// <param name="inventory"></param>
