@@ -2,24 +2,20 @@
 
 namespace SoftwareEngineeringProject;
 
-public class SupplierRecord
+/// <summary>
+/// Holds supplier records.
+/// </summary>
+public record SupplierRecord
 {
-    public required int SupplierId { get; set; }
-    public required string SupplierName { get; set; }
-    public required string Address { get; set; }
-    public required string Phone { get; set; }
-    public required string Email { get; set; }
+    public int SupplierId { get; init; }
     
-    /// <summary>
-    /// Removes leading/trailing spaces from string members.
-    /// </summary>
-    public void Clean()
-    {
-        SupplierName = SupplierName.Trim();
-        Address = Address.Trim();
-        Phone = Phone.Trim();
-        Email = Email.Trim();
-    }
+    public string? SupplierName { get; init; }
+    
+    public string? Address { get; init; }
+    
+    public string? Phone { get; init; }
+    
+    public string? Email { get; init; }
     
     public override string ToString()
     {
@@ -27,8 +23,12 @@ public class SupplierRecord
     }
 }
 
+/// <summary>
+/// Maps the items read from the file to the fields in <see cref="SupplierRecord"/>.
+/// </summary>
 public sealed class SupplierMap : ClassMap<SupplierRecord>
 {
+    /// <inheritdoc cref="SupplierMap"/>
     public SupplierMap()
     {
         Map(m => m.SupplierId).Index(0);

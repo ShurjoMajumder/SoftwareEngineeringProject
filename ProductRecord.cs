@@ -1,30 +1,19 @@
 ﻿using CsvHelper.Configuration;
-using CsvHelper.Configuration.Attributes;
 
 namespace SoftwareEngineeringProject;
 
 /// <summary>
-/// Holds Product records.
+/// Holds product records.
 /// </summary>
-public class ProductRecord
+public record ProductRecord
 {
-    public required int Id { get; set; }
-    public required string ProductName { get; set; }
-    public required string Description { get; set; }
-    public required string Price { get; set; }
-    public required int Quantity { get; set; }
-    public required char Status { get; set; }
-    public required int SupplierId { get; set; }
-
-    /// <summary>
-    /// Removes leading/trailing spaces from string members.
-    /// </summary>
-    public void Clean()
-    {
-        ProductName = ProductName.Trim();
-        Description = Description.Trim();
-        Price = Price.Trim();
-    }
+    public int Id { get; init; }
+    public string? ProductName { get; init; }
+    public string? Description { get; init; }
+    public string? Price { get; init; }
+    public int Quantity { get; init; }
+    public char Status { get; init; }
+    public int SupplierId { get; init; }
     
     public override string ToString()
     {
@@ -32,11 +21,12 @@ public class ProductRecord
     }
 }
 
+/// <summary>
+/// Maps the items read from the file to the fields in <see cref="ProductMap"/>.
+/// </summary>
 public sealed class ProductMap : ClassMap<ProductRecord>
 {
-    /// <summary>
-    /// Maps the items read from the file to the fields in ProductRecord.
-    /// </summary>
+    /// <inheritdoc cref="ProductMap"/>
     public ProductMap()
     {
         Map(m => m.Id).Index(0);

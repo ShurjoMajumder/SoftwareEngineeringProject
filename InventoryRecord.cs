@@ -2,14 +2,17 @@
 
 namespace SoftwareEngineeringProject;
 
-public class InventoryRecord
+/// <summary>
+/// Holds inventory records.
+/// </summary>
+public record InventoryRecord
 {
-    public required int ProductId { get; set; }
-    public required string ProductName { get; set; }
-    public required int Quantity { get; set; }
-    public required string Price { get; set; }
-    public required char Status { get; set; }
-    public required string SupplierName { get; set; }
+    public required int ProductId { get; init; }
+    public required string ProductName { get; init; }
+    public required int Quantity { get; init; }
+    public required string Price { get; init; }
+    public required char Status { get; init; }
+    public required string SupplierName { get; init; }
 
     public override string ToString()
     {
@@ -17,6 +20,9 @@ public class InventoryRecord
     }
 }
 
+/// <summary>
+/// Maps the items read from the file to the fields in <see cref="InventoryRecord"/>.
+/// </summary>
 public sealed class InventoryMap : ClassMap<InventoryRecord>
 {
     public InventoryMap()
