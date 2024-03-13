@@ -84,11 +84,11 @@ internal static class Program
     }
 
     /// <summary>
-    /// Logs records.
+    /// Generic function that logs records.
     /// </summary>
     /// <param name="logging"></param>
     /// <param name="inventory"></param>
-    private static void LogRecords(bool logging, IEnumerable<InventoryRecord> inventory)
+    private static void LogRecords<TRecord>(bool logging, IEnumerable<TRecord> inventory)
     {
         if (!logging) { return; }
         
