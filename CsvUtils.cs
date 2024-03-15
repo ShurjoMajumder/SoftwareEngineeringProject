@@ -33,20 +33,16 @@ internal static class CsvUtils
     /// Generic function that writes records to the given output path. Overwrites the file.
     /// </summary>
     /// <param name="records">Records to write.</param>
-    /// <param name="outPath">Path to output file.</param>
+    /// <param name="path">Path to output file.</param>
     /// <param name="config">CsvHelper configuration.</param>
     /// <typeparam name="TRecord">Record type.</typeparam>
     /// <typeparam name="TClassMap">Class map that maps to TRecord.</typeparam>
-    public static void WriteCsv<TRecord, TClassMap>(
-        IEnumerable<TRecord> records,
-        string outPath,
-        IWriterConfiguration config
-        )
+    public static void WriteCsv<TRecord, TClassMap>(IEnumerable<TRecord> records, string path, IWriterConfiguration config)
         where TClassMap : ClassMap<TRecord>
     {
         // input validation in the form of "if its wrong, the program crashes".
         // the default output file is valid, so any exception here is always the user's fault.
-        using var writer = new StreamWriter(outPath);
+        using var writer = new StreamWriter(path);
         using var csv = new CsvWriter(writer, config);
         
         csv.Context.RegisterClassMap<TClassMap>();
