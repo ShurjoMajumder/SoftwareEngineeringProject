@@ -5,7 +5,7 @@ namespace SoftwareEngineeringProject;
 /// <summary>
 /// Holds inventory records.
 /// </summary>
-public record InventoryRecord
+public record InventoryRecord : IComparable<InventoryRecord>
 {
     public required int ProductId { get; init; }
     public required string ProductName { get; init; }
@@ -18,10 +18,20 @@ public record InventoryRecord
     {
         return $"{ProductId}, {ProductName}, {Quantity}, {Price}, {Status}, {SupplierName}";
     }
+
+    public int CompareTo(InventoryRecord? other)
+    {
+        if (other == null)
+        {
+            throw new ArgumentException("Other is null.");
+        }
+        
+        return ProductId - other.ProductId;
+    }
 }
 
 /// <summary>
-/// Maps the items read from the file to the fields in <see cref="InventoryRecord"/>.
+/// Maps the items read from a CSV file to the fields in <see cref="InventoryRecord"/>.
 /// </summary>
 public sealed class InventoryMap : ClassMap<InventoryRecord>
 {

@@ -8,13 +8,9 @@ namespace SoftwareEngineeringProject;
 public record SupplierRecord
 {
     public int SupplierId { get; init; }
-    
     public string? SupplierName { get; init; }
-    
     public string? Address { get; init; }
-    
     public string? Phone { get; init; }
-    
     public string? Email { get; init; }
     
     public override string ToString()
@@ -24,7 +20,7 @@ public record SupplierRecord
 }
 
 /// <summary>
-/// Maps the items read from the file to the fields in <see cref="SupplierRecord"/>.
+/// Maps the items read from a CSV file to the fields in <see cref="SupplierRecord"/>.
 /// </summary>
 public sealed class SupplierMap : ClassMap<SupplierRecord>
 {

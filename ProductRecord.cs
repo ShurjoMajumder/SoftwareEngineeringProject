@@ -22,7 +22,7 @@ public record ProductRecord
 }
 
 /// <summary>
-/// Maps the items read from the file to the fields in <see cref="ProductMap"/>.
+/// Maps the items read from a CSV file to the fields in <see cref="ProductMap"/>.
 /// </summary>
 public sealed class ProductMap : ClassMap<ProductRecord>
 {

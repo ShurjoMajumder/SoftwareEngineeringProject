@@ -28,7 +28,7 @@ internal static class Program
         var productRecords = ReadCsv<ProductRecord, ProductMap>(arguments.ProductsPath, config);
         var supplierRecords = ReadCsv<SupplierRecord, SupplierMap>(arguments.SuppliersPath, config);
         
-        var inventory = JoinRecords(productRecords, supplierRecords);
+        var inventory = JoinRecordsOnSupplierId(productRecords, supplierRecords);
         
         LogRecords(arguments.Logging, inventory);
         
@@ -41,16 +41,16 @@ internal static class Program
     /// <param name="path">Path to the CSV file.</param>
     /// <param name="config">CsvHelper configuration.</param>
     /// <typeparam name="TRecord">Record type.</typeparam>
-    /// <typeparam name="TMapper">Class map that maps to TRecord.</typeparam>
+    /// <typeparam name="TClassMap">Class map that maps to TRecord.</typeparam>
     /// <returns>List of TRecord objects.</returns>
-    private static List<TRecord> ReadCsv<TRecord, TMapper>(string path, IReaderConfiguration config)
-        where TMapper : ClassMap<TRecord>
+    private static List<TRecord> ReadCsv<TRecord, TClassMap>(string path, IReaderConfiguration config)
+        where TClassMap : ClassMap<TRecord>
     {
         // input validation in the form of "if its wrong, the program crashes".
         using var reader = new StreamReader(path);
         using var csv = new CsvReader(reader, config);
 
-        csv.Context.RegisterClassMap<TMapper>();
+        csv.Context.RegisterClassMap<TClassMap>();
         var records = csv.GetRecords<TRecord>().ToList();
         
         return records;
@@ -62,7 +62,7 @@ internal static class Program
     /// <param name="productRecords">IEnumerable containing product records.</param>
     /// <param name="supplierRecords">IEnumerable containing supplier records.</param>
     /// <returns>List of inventory records.</returns>
-    private static List<InventoryRecord> JoinRecords(
+    private static List<InventoryRecord> JoinRecordsOnSupplierId(
         IEnumerable<ProductRecord> productRecords,
         IEnumerable<SupplierRecord> supplierRecords
         )
@@ -80,7 +80,10 @@ internal static class Program
                 SupplierName = supplierRecord.SupplierName
             };
 
-        return inventory.ToList();
+        var inventoryRecords = inventory.ToList();
+        inventoryRecords.Sort();
+        
+        return inventoryRecords;
     }
 
     /// <summary>
@@ -106,20 +109,20 @@ internal static class Program
     /// <param name="outPath">Path to output file.</param>
     /// <param name="config">CsvHelper configuration.</param>
     /// <typeparam name="TRecord">Record type.</typeparam>
-    /// <typeparam name="TMapper">Class map that maps to TRecord.</typeparam>
-    private static void WriteCsv<TRecord, TMapper>(
+    /// <typeparam name="TClassMap">Class map that maps to TRecord.</typeparam>
+    private static void WriteCsv<TRecord, TClassMap>(
         IEnumerable<TRecord> records,
         string outPath,
         IWriterConfiguration config
         )
-    where TMapper : ClassMap<TRecord>
+    where TClassMap : ClassMap<TRecord>
     {
         // input validation in the form of "if its wrong, the program crashes".
         // the default output file is valid, so any exception here is always the user's fault.
         using var writer = new StreamWriter(outPath);
         using var csv = new CsvWriter(writer, config);
         
-        csv.Context.RegisterClassMap<TMapper>();
+        csv.Context.RegisterClassMap<TClassMap>();
         csv.WriteRecords(records);
     }
 }
