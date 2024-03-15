@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using CsvHelper;
 using CsvHelper.Configuration;
 
 namespace SoftwareEngineeringProject;
@@ -25,37 +24,16 @@ internal static class Program
             Delimiter = ", "
         };
         
-        var productRecords = ReadCsv<ProductRecord, ProductMap>(arguments.ProductsPath, config);
-        var supplierRecords = ReadCsv<SupplierRecord, SupplierMap>(arguments.SuppliersPath, config);
+        var productRecords = CsvUtils.ReadCsv<ProductRecord, ProductMap>(arguments.ProductsPath, config);
+        var supplierRecords = CsvUtils.ReadCsv<SupplierRecord, SupplierMap>(arguments.SuppliersPath, config);
         
         var inventory = JoinRecordsOnSupplierId(productRecords, supplierRecords);
         
         LogRecords(arguments.Logging, inventory);
         
-        WriteCsv<InventoryRecord, InventoryMap>(inventory, arguments.OutputPath, config);
+        CsvUtils.WriteCsv<InventoryRecord, InventoryMap>(inventory, arguments.OutputPath, config);
     }
-
-    /// <summary>
-    /// Generic function that reads a CSV file.
-    /// </summary>
-    /// <param name="path">Path to the CSV file.</param>
-    /// <param name="config">CsvHelper configuration.</param>
-    /// <typeparam name="TRecord">Record type.</typeparam>
-    /// <typeparam name="TClassMap">Class map that maps to TRecord.</typeparam>
-    /// <returns>List of TRecord objects.</returns>
-    private static List<TRecord> ReadCsv<TRecord, TClassMap>(string path, IReaderConfiguration config)
-        where TClassMap : ClassMap<TRecord>
-    {
-        // input validation in the form of "if its wrong, the program crashes".
-        using var reader = new StreamReader(path);
-        using var csv = new CsvReader(reader, config);
-
-        csv.Context.RegisterClassMap<TClassMap>();
-        var records = csv.GetRecords<TRecord>().ToList();
-        
-        return records;
-    }
-
+    
     /// <summary>
     /// Non-generic function that joins Product and Inventory records on "SupplierId".
     /// </summary>
@@ -85,7 +63,7 @@ internal static class Program
         
         return inventoryRecords;
     }
-
+    
     /// <summary>
     /// Generic function that logs records.
     /// </summary>
@@ -100,29 +78,5 @@ internal static class Program
         {
             Console.WriteLine(record);
         }
-    }
-
-    /// <summary>
-    /// Generic function that writes records to the given output path. Overwrites the file.
-    /// </summary>
-    /// <param name="records">Records to write.</param>
-    /// <param name="outPath">Path to output file.</param>
-    /// <param name="config">CsvHelper configuration.</param>
-    /// <typeparam name="TRecord">Record type.</typeparam>
-    /// <typeparam name="TClassMap">Class map that maps to TRecord.</typeparam>
-    private static void WriteCsv<TRecord, TClassMap>(
-        IEnumerable<TRecord> records,
-        string outPath,
-        IWriterConfiguration config
-        )
-    where TClassMap : ClassMap<TRecord>
-    {
-        // input validation in the form of "if its wrong, the program crashes".
-        // the default output file is valid, so any exception here is always the user's fault.
-        using var writer = new StreamWriter(outPath);
-        using var csv = new CsvWriter(writer, config);
-        
-        csv.Context.RegisterClassMap<TClassMap>();
-        csv.WriteRecords(records);
     }
 }

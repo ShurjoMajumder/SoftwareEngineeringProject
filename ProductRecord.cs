@@ -1,6 +1,4 @@
-﻿using CsvHelper.Configuration;
-
-namespace SoftwareEngineeringProject;
+﻿namespace SoftwareEngineeringProject;
 
 /// <summary>
 /// Holds product records.
@@ -18,23 +16,5 @@ public record ProductRecord
     public override string ToString()
     {
         return $"{Id}, {ProductName}, {Description}, {Price}, {Quantity}, {Status}, {SupplierId}";
-    }
-}
-
-/// <summary>
-/// Maps the items read from a CSV file to the fields in <see cref="ProductMap"/>.
-/// </summary>
-public sealed class ProductMap : ClassMap<ProductRecord>
-{
-    /// <inheritdoc cref="ProductMap"/>
-    public ProductMap()
-    {
-        Map(m => m.Id).Index(0);
-        Map(m => m.ProductName).Index(1);
-        Map(m => m.Description).Index(2);
-        Map(m => m.Price).Index(3);
-        Map(m => m.Quantity).Index(4);
-        Map(m => m.Status).Index(5);
-        Map(m => m.SupplierId).Index(6);
     }
 }

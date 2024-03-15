@@ -1,6 +1,4 @@
-﻿using CsvHelper.Configuration;
-
-namespace SoftwareEngineeringProject;
+﻿namespace SoftwareEngineeringProject;
 
 /// <summary>
 /// Holds inventory records.
@@ -27,21 +25,5 @@ public record InventoryRecord : IComparable<InventoryRecord>
         }
         
         return ProductId - other.ProductId;
-    }
-}
-
-/// <summary>
-/// Maps the items read from a CSV file to the fields in <see cref="InventoryRecord"/>.
-/// </summary>
-public sealed class InventoryMap : ClassMap<InventoryRecord>
-{
-    public InventoryMap()
-    {
-        Map(m => m.ProductId).Index(0);
-        Map(m => m.ProductName).Index(1);
-        Map(m => m.Quantity).Index(2);
-        Map(m => m.Price).Index(3);
-        Map(m => m.Status).Index(4);
-        Map(m => m.SupplierName).Index(5);
     }
 }
