@@ -63,42 +63,43 @@ public class CmdArguments
     {
         foreach (var arg in args)
         {
-            switch (arg)
+            ReadArgument(arg);
+        }
+    }
+
+    /// <summary>
+    /// Reads an argument, and determines the state the parser is in for the next iteration.
+    /// </summary>
+    /// <param name="arg">Argument to read.</param>
+    private void ReadArgument(string arg)
+    {
+        switch (arg)
+        {
+            case "--nl" or "--nlg" or "--no-log":
             {
-                case "--nl":
-                case "--nlg":
-                case "--no-log":
-                    Logging = false;
-                    break;
-                case "-o":
-                case "-out":
-                case "-output":
-                {
-                    _inputState = InputState.InputOutputPath;
-                    break;
-                }
-                case "-p":
-                case "-prod":
-                case "-prods":
-                case "-products":
-                {
-                    _inputState = InputState.InputProductsPath;
-                    break;
-                }
-                case "-s":
-                case "-sup":
-                case "-sups":
-                case "-suppliers":
-                {
-                    _inputState = InputState.InputSuppliersPath;
-                    break;
-                }
-                default:
-                {
-                    ConsumeInput(arg);
-                    _inputState = InputState.InputDefault; // reset input state to default
-                    break;
-                }
+                Logging = false;
+                return;
+            }
+            case "-o" or "-out" or "-output":
+            {
+                _inputState = InputState.InputOutputPath;
+                return;
+            }
+            case "-p" or "-prod" or "-prods" or "-products":
+            {
+                _inputState = InputState.InputProductsPath;
+                return;
+            }
+            case "-s" or "-sup" or "-sups" or "-suppliers":
+            {
+                _inputState = InputState.InputSuppliersPath;
+                return;
+            }
+            default:
+            {
+                ConsumeArgument(arg);
+                _inputState = InputState.InputDefault; // reset input state to default
+                return;
             }
         }
     }
@@ -109,7 +110,7 @@ public class CmdArguments
     /// <param name="arg"></param>
     /// <exception cref="ArgumentException">Invalid argument was passed to the program.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Invalid parser state was entered.</exception>
-    private void ConsumeInput(string arg)
+    private void ConsumeArgument(string arg)
     {
         if (arg.StartsWith("-"))
         {
@@ -121,17 +122,25 @@ public class CmdArguments
             case InputState.InputDefault:
                 return;
             case InputState.InputProductsPath:
+            {
                 ProductsPath = arg;
                 return;
+            }
             case InputState.InputSuppliersPath:
+            {
                 SuppliersPath = arg;
                 return;
+            }
             case InputState.InputOutputPath:
+            {
                 OutputPath = arg;
                 return;
+            }
             default:
-                // this **should** never happen.
+            {
+                // this *should* never happen.
                 throw new ArgumentOutOfRangeException(arg, "Invalid parser state.");
+            }
         }
     }
 
