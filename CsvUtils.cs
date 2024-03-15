@@ -8,7 +8,7 @@ namespace SoftwareEngineeringProject;
 /// </summary>
 internal static class CsvUtils
 {
-    /// <summary>
+        /// <summary>
     /// Generic function that reads a CSV file.
     /// </summary>
     /// <param name="path">Path to the CSV file.</param>
