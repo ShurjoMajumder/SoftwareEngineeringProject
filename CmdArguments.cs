@@ -59,7 +59,7 @@ public class CmdArguments
     /// Iterates through the passed arguments. State-based parser that iterates through arguments once.
     /// </summary>
     /// <param name="args">Enumerable containing the cmd arguments.</param>
-    private void Parse(IEnumerable<string> args)
+    private void Parse(in IEnumerable<string> args)
     {
         foreach (var arg in args)
         {
@@ -75,7 +75,7 @@ public class CmdArguments
     {
         switch (arg)
         {
-            case "--nl" or "--nlg" or "--no-log":
+            case "--nl" or "--nlg" or "--no-log" or "--nolog":
             {
                 Logging = false;
                 return;

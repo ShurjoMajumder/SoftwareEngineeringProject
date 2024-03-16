@@ -12,7 +12,7 @@ internal static class Program
     /// -[products|prods|prod|p] - specifies the path to the product file.
     /// -[suppliers|sups|sup|s] - specifies the path to the supplier file.
     /// -[output|out|o] - output path. overwrites pre-existing file. (defaults to ./out.txt)
-    /// --[no-log|nlg|nl] - disables logging.
+    /// --[no-log|nolog|nlg|nl] - disables logging.
     /// </param>
     public static void Main(string[] args)
     {
