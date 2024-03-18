@@ -6,7 +6,7 @@ namespace SoftwareEngineeringProject;
 /// <summary>
 /// Contains generic utility functions for reading from and writing to CSV files.
 /// </summary>
-internal static class CsvUtils
+public static class CsvUtils
 {
     /// <summary>
     /// Generic function that reads a CSV file.

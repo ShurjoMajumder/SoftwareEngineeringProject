@@ -3,7 +3,7 @@ using CsvHelper.Configuration;
 
 namespace SoftwareEngineeringProject;
 
-internal static class Program
+public static class Program
 {
     /// <summary>
     /// Takes two input files (products, suppliers), outputs the inner join on the SupplierId.
@@ -40,7 +40,7 @@ internal static class Program
     /// <param name="productRecords">IEnumerable containing product records.</param>
     /// <param name="supplierRecords">IEnumerable containing supplier records.</param>
     /// <returns>List of inventory records.</returns>
-    private static List<InventoryRecord> JoinRecordsOnSupplierId(
+    public static List<InventoryRecord> JoinRecordsOnSupplierId(
         IEnumerable<ProductRecord> productRecords,
         IEnumerable<SupplierRecord> supplierRecords
         )
@@ -69,7 +69,7 @@ internal static class Program
     /// </summary>
     /// <param name="logging"></param>
     /// <param name="inventory"></param>
-    private static void LogRecords<TRecord>(bool logging, IEnumerable<TRecord> inventory)
+    public static void LogRecords<TRecord>(bool logging, IEnumerable<TRecord> inventory)
     {
         if (!logging) { return; }
         
