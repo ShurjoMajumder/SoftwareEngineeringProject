@@ -5,11 +5,11 @@
 /// </summary>
 public record SupplierRecord
 {
-    public int SupplierId { get; init; }
-    public string? SupplierName { get; init; }
-    public string? Address { get; init; }
-    public string? Phone { get; init; }
-    public string? Email { get; init; }
+    public required int SupplierId { get; init; }
+    public required string? SupplierName { get; init; }
+    public required string? Address { get; init; }
+    public required string? Phone { get; init; }
+    public required string? Email { get; init; }
     
     public override string ToString()
     {
