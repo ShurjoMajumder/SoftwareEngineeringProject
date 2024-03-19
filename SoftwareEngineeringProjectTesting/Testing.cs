@@ -14,7 +14,7 @@ public class Testing
             Delimiter = ", "
         };
         
-        Console.WriteLine("\n---------------------------------------------------------------");
+        Console.WriteLine("\n--------------------------------------------------------------");
         Console.WriteLine("TEST CASES:");
         Console.WriteLine("--------------------------------------------------------------");
         
