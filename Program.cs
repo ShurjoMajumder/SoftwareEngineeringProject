@@ -72,7 +72,7 @@ public static class Program
     public static void LogRecords<TRecord>(bool logging, IEnumerable<TRecord> inventory)
     {
         if (!logging) { return; }
-        
+
         Console.WriteLine("\nInventory Records:");
         foreach (var record in inventory)
         {

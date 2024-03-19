@@ -13,14 +13,23 @@
 
     <ItemGroup>
       <Compile Remove="SoftwareEngineeringProjectTesting\**" />
+      <Compile Remove="archives\**" />
+      <Compile Remove="assets\**" />
+      <Compile Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="SoftwareEngineeringProjectTesting\**" />
+      <EmbeddedResource Remove="archives\**" />
+      <EmbeddedResource Remove="assets\**" />
+      <EmbeddedResource Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="SoftwareEngineeringProjectTesting\**" />
+      <None Remove="archives\**" />
+      <None Remove="assets\**" />
+      <None Remove="obj\**" />
     </ItemGroup>
 
 </Project>
