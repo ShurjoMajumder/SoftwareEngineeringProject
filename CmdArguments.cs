@@ -81,6 +81,11 @@ public class CmdArguments
     {
         switch (arg)
         {
+            case "help" or "-h" or "?":
+            {
+                PrintHelpMessage();
+                break;
+            }
             case "--nl" or "--nlg" or "--no-log" or "--nolog":
             {
                 Logging = false;
@@ -100,11 +105,6 @@ public class CmdArguments
             {
                 _inputState = InputState.InputSuppliersPath;
                 return;
-            }
-            case "help" or "-h" or "?":
-            {
-                PrintHelpMessage();
-                break;
             }
             default:
             {
@@ -174,14 +174,14 @@ public class CmdArguments
     /// <exception cref="Exception"></exception>
     private void ValidateInOutPaths()
     {
-        if (ProductsPath == null)
+        if (ProductsPath is "")
         {
-            throw new Exception("Products path is null.");
+            throw new Exception("Products path is empty.");
         }
 
-        if (SuppliersPath == null)
+        if (SuppliersPath is "")
         {
-            throw new Exception("Suppliers path is null.");
+            throw new Exception("Suppliers path is empty.");
         }
         
         if (!Logging) { return; }
