@@ -50,6 +50,12 @@ public class CmdArguments
         ProductsPath = "";
         SuppliersPath = "";
         OutputPath = "./out.txt";
+
+        if (!args.Any())
+        {
+            PrintHelpMessage();
+            return;
+        }
         
         Parse(args);
         ValidateInOutPaths();
@@ -95,6 +101,11 @@ public class CmdArguments
                 _inputState = InputState.InputSuppliersPath;
                 return;
             }
+            case "help" or "-h" or "?":
+            {
+                PrintHelpMessage();
+                break;
+            }
             default:
             {
                 ConsumeArgument(arg);
@@ -102,6 +113,19 @@ public class CmdArguments
                 return;
             }
         }
+    }
+
+    private static void PrintHelpMessage()
+    {
+        Console.WriteLine("Arguments:");
+        Console.WriteLine(" -[products|prods|prod|p] - specifies the path to the product file.");
+        Console.WriteLine(" -[suppliers|sups|sup|s] - specifies the path to the supplier file.");
+        Console.WriteLine(" -[output|out|o] - output path. overwrites pre-existing file. (defaults to ./out.txt)");
+        Console.WriteLine("--[no-log|nolog|nlg|nl] - disables logging.");
+        Console.WriteLine("\nUsage:");
+        Console.WriteLine("SoftwareEngineeringProject -p [path to products file] -s [path to suppliers file] -o [output path]");
+        
+        Environment.Exit(0);
     }
 
     /// <summary>

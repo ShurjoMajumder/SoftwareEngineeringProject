@@ -30,9 +30,9 @@ public static class CsvUtils
             var record = new ProductRecord
             {
                 Id = GenericConverter.Parse<int>(fields[0]),
-                ProductName = fields[1],
-                Description = fields[2],
-                Price = fields[3],
+                ProductName = fields[1].Trim(),
+                Description = fields[2].Trim(),
+                Price = fields[3].Trim(),
                 Quantity = GenericConverter.Parse<int>(fields[4]),
                 Status = GenericConverter.Parse<char>(fields[5]),
                 SupplierId = GenericConverter.Parse<int>(fields[6])
@@ -65,10 +65,10 @@ public static class CsvUtils
             var record = new SupplierRecord
             {
                 SupplierId = GenericConverter.Parse<int>(fields[0]),
-                SupplierName = fields[1],
-                Address = fields[2],
-                Phone = fields[3],
-                Email = fields[4]
+                SupplierName = fields[1].Trim(),
+                Address = fields[2].Trim(),
+                Phone = fields[3].Trim(),
+                Email = fields[4].Trim()
             };
             
             records.Add(record);
