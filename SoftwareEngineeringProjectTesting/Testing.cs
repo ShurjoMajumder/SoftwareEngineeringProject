@@ -61,7 +61,7 @@ public class Testing
         Console.WriteLine("\nActual Results:");
         var actual1 = Program.JoinRecordsOnSupplierId(productRecordsTest1, supplierRecordsTest1);
         Program.LogRecords(true, actual1);
-        CsvUtils.WriteCsv<InventoryRecord>(actual1, "out.txt");
+        CsvUtils.WriteCsv(actual1, "out.txt");
     }
     
     private static void TestCase2()

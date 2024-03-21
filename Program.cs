@@ -22,7 +22,7 @@ public static class Program
         
         LogRecords(arguments.Logging, inventory);
         
-        CsvUtils.WriteCsv<InventoryRecord>(inventory, arguments.OutputPath);
+        CsvUtils.WriteCsv(inventory, arguments.OutputPath);
     }
     
     /// <summary>
