@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using CsvHelper.Configuration;
-
-namespace SoftwareEngineeringProject;
+﻿namespace SoftwareEngineeringProject;
 
 public static class Program
 {
@@ -17,21 +14,15 @@ public static class Program
     public static void Main(string[] args)
     {
         var arguments = new CmdArguments(args);
-        
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = false,
-            Delimiter = ", "
-        };
-        
-        var productRecords = CsvUtils.ReadCsv<ProductRecord, ProductMap>(arguments.ProductsPath, config);
-        var supplierRecords = CsvUtils.ReadCsv<SupplierRecord, SupplierMap>(arguments.SuppliersPath, config);
+
+        var productRecords = CsvUtils.ReadProductCsv(arguments.ProductsPath).ToList();
+        var supplierRecords = CsvUtils.ReadSupplierCsv(arguments.SuppliersPath).ToList();
         
         var inventory = JoinRecordsOnSupplierId(productRecords, supplierRecords);
         
         LogRecords(arguments.Logging, inventory);
         
-        CsvUtils.WriteCsv<InventoryRecord, InventoryMap>(inventory, arguments.OutputPath, config);
+        CsvUtils.WriteCsv(inventory, arguments.OutputPath);
     }
     
     /// <summary>

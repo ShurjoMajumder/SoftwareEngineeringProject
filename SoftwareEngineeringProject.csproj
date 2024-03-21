@@ -5,17 +5,15 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
-
-    <ItemGroup>
-      <PackageReference Include="CsvHelper" Version="31.0.2" />
-    </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="SoftwareEngineeringProjectTesting\**" />
       <Compile Remove="archives\**" />
       <Compile Remove="assets\**" />
       <Compile Remove="obj\**" />
+      <Compile Remove="CsvParser\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,6 +21,7 @@
       <EmbeddedResource Remove="archives\**" />
       <EmbeddedResource Remove="assets\**" />
       <EmbeddedResource Remove="obj\**" />
+      <EmbeddedResource Remove="CsvParser\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -30,6 +29,7 @@
       <None Remove="archives\**" />
       <None Remove="assets\**" />
       <None Remove="obj\**" />
+      <None Remove="CsvParser\**" />
     </ItemGroup>
 
 </Project>

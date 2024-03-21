@@ -1,5 +1,4 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
+﻿using Microsoft.VisualBasic.FileIO;
 
 namespace SoftwareEngineeringProject;
 
@@ -8,94 +7,69 @@ namespace SoftwareEngineeringProject;
 /// </summary>
 public static class CsvUtils
 {
-    /// <summary>
-    /// Generic function that reads a CSV file.
-    /// </summary>
-    /// <param name="path">Path to the CSV file.</param>
-    /// <param name="config">CsvHelper configuration.</param>
-    /// <typeparam name="TRecord">Record type.</typeparam>
-    /// <typeparam name="TClassMap">Class map that maps to TRecord.</typeparam>
-    /// <returns>List of TRecord objects.</returns>
-    public static List<TRecord> ReadCsv<TRecord, TClassMap>(string path, IReaderConfiguration config)
-        where TClassMap : ClassMap<TRecord>
+    public static IEnumerable<ProductRecord> ReadProductCsv(string path)
     {
-        // input validation in the form of "if its wrong, the program crashes".
-        using var reader = new StreamReader(path);
-        using var csv = new CsvReader(reader, config);
+        using var parser = new TextFieldParser(path);
+        parser.TextFieldType = FieldType.Delimited;
+        parser.SetDelimiters(", ");
 
-        csv.Context.RegisterClassMap<TClassMap>();
-        var records = csv.GetRecords<TRecord>().ToList();
+        var records = new List<ProductRecord>();
         
+        while (!parser.EndOfData)
+        {
+            var fields = parser.ReadFields();
+            if (fields == null) throw new ArgumentException("Invalid CSV data.");
+            
+            var record = new ProductRecord
+            {
+                Id = GenericConverter.Parse<int>(fields[0]),
+                ProductName = fields[1],
+                Description = fields[2],
+                Price = fields[3],
+                Quantity = GenericConverter.Parse<int>(fields[4]),
+                Status = GenericConverter.Parse<char>(fields[5]),
+                SupplierId = GenericConverter.Parse<int>(fields[6])
+            };
+            
+            records.Add(record);
+        }
         return records;
     }
-    
-    /// <summary>
-    /// Generic function that writes records to the given output path. Overwrites the file.
-    /// </summary>
-    /// <param name="records">Records to write.</param>
-    /// <param name="path">Path to output file.</param>
-    /// <param name="config">CsvHelper configuration.</param>
-    /// <typeparam name="TRecord">Record type.</typeparam>
-    /// <typeparam name="TClassMap">Class map that maps to TRecord.</typeparam>
-    public static void WriteCsv<TRecord, TClassMap>(IEnumerable<TRecord> records, string path, IWriterConfiguration config)
-        where TClassMap : ClassMap<TRecord>
+
+    public static IEnumerable<SupplierRecord> ReadSupplierCsv(string path)
     {
-        // input validation in the form of "if its wrong, the program crashes".
-        // the default output file is valid, so any exception here is always the user's fault.
-        using var writer = new StreamWriter(path);
-        using var csv = new CsvWriter(writer, config);
+        using var parser = new TextFieldParser(path);
+        parser.TextFieldType = FieldType.Delimited;
+        parser.SetDelimiters(", ");
+
+        var records = new List<SupplierRecord>();
         
-        csv.Context.RegisterClassMap<TClassMap>();
-        csv.WriteRecords(records);
+        while (!parser.EndOfData)
+        {
+            var fields = parser.ReadFields();
+            if (fields == null) throw new ArgumentException("Invalid CSV data.");
+            
+            var record = new SupplierRecord
+            {
+                SupplierId = GenericConverter.Parse<int>(fields[0]),
+                SupplierName = fields[1],
+                Address = fields[2],
+                Phone = fields[3],
+                Email = fields[4]
+            };
+            
+            records.Add(record);
+        }
+        return records;
     }
-}
 
-/// <summary>
-/// Maps the items read from a CSV file to the fields in <see cref="ProductMap"/>.
-/// </summary>
-public sealed class ProductMap : ClassMap<ProductRecord>
-{
-    /// <inheritdoc cref="ProductMap"/>
-    public ProductMap()
+    public static void WriteCsv<TRecord>(List<TRecord> records, string path)
     {
-        Map(m => m.Id).Index(0);
-        Map(m => m.ProductName).Index(1);
-        Map(m => m.Description).Index(2);
-        Map(m => m.Price).Index(3);
-        Map(m => m.Quantity).Index(4);
-        Map(m => m.Status).Index(5);
-        Map(m => m.SupplierId).Index(6);
-    }
-}
+        using var writer = new StreamWriter(path);
 
-/// <summary>
-/// Maps the items read from a CSV file to the fields in <see cref="SupplierRecord"/>.
-/// </summary>
-public sealed class SupplierMap : ClassMap<SupplierRecord>
-{
-    /// <inheritdoc cref="SupplierMap"/>
-    public SupplierMap()
-    {
-        Map(m => m.SupplierId).Index(0);
-        Map(m => m.SupplierName).Index(1);
-        Map(m => m.Address).Index(2);
-        Map(m => m.Phone).Index(3);
-        Map(m => m.Email).Index(4);
-    }
-}
-
-/// <summary>
-/// Maps the items read from a CSV file to the fields in <see cref="InventoryRecord"/>.
-/// </summary>
-public sealed class InventoryMap : ClassMap<InventoryRecord>
-{
-    public InventoryMap()
-    {
-        Map(m => m.ProductId).Index(0);
-        Map(m => m.ProductName).Index(1);
-        Map(m => m.Quantity).Index(2);
-        Map(m => m.Price).Index(3);
-        Map(m => m.Status).Index(4);
-        Map(m => m.SupplierName).Index(5);
+        foreach (var record in records)
+        {
+            writer.WriteLine(record);
+        }
     }
 }
