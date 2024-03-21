@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿using System.Collections;
+using Microsoft.VisualBasic.FileIO;
 
 namespace SoftwareEngineeringProject;
 
@@ -7,7 +8,13 @@ namespace SoftwareEngineeringProject;
 /// </summary>
 public static class CsvUtils
 {
-    public static IEnumerable<ProductRecord> ReadProductCsv(string path)
+    /// <summary>
+    /// Reads product CSV file.
+    /// </summary>
+    /// <param name="path">Path to file.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static IEnumerable<ProductRecord> ReadProductCsv(in string path)
     {
         using var parser = new TextFieldParser(path);
         parser.TextFieldType = FieldType.Delimited;
@@ -36,7 +43,13 @@ public static class CsvUtils
         return records;
     }
 
-    public static IEnumerable<SupplierRecord> ReadSupplierCsv(string path)
+    /// <summary>
+    /// Reads supplier CSV file.
+    /// </summary>
+    /// <param name="path">Path to file.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static IEnumerable<SupplierRecord> ReadSupplierCsv(in string path)
     {
         using var parser = new TextFieldParser(path);
         parser.TextFieldType = FieldType.Delimited;
@@ -63,7 +76,13 @@ public static class CsvUtils
         return records;
     }
 
-    public static void WriteCsv<TRecord>(List<TRecord> records, string path)
+    /// <summary>
+    /// Writes records from an `IEnumerable` to a file at `path`.
+    /// </summary>
+    /// <param name="records">Records to write.</param>
+    /// <param name="path">Path to output file.</param>
+    /// <typeparam name="TRecord"></typeparam>
+    public static void WriteCsv<TRecord>(in IEnumerable records, string path)
     {
         using var writer = new StreamWriter(path);
 

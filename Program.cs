@@ -22,7 +22,7 @@ public static class Program
         
         LogRecords(arguments.Logging, inventory);
         
-        CsvUtils.WriteCsv(inventory, arguments.OutputPath);
+        CsvUtils.WriteCsv<InventoryRecord>(inventory, arguments.OutputPath);
     }
     
     /// <summary>
@@ -32,8 +32,8 @@ public static class Program
     /// <param name="supplierRecords">IEnumerable containing supplier records.</param>
     /// <returns>List of inventory records.</returns>
     public static List<InventoryRecord> JoinRecordsOnSupplierId(
-        IEnumerable<ProductRecord> productRecords,
-        IEnumerable<SupplierRecord> supplierRecords
+        in IEnumerable<ProductRecord> productRecords,
+        in IEnumerable<SupplierRecord> supplierRecords
         )
     {
         var inventory =
@@ -60,7 +60,7 @@ public static class Program
     /// </summary>
     /// <param name="logging"></param>
     /// <param name="inventory"></param>
-    public static void LogRecords<TRecord>(bool logging, IEnumerable<TRecord> inventory)
+    public static void LogRecords<TRecord>(bool logging, in IEnumerable<TRecord> inventory)
     {
         if (!logging) { return; }
 
