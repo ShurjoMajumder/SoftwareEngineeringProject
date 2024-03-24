@@ -15,8 +15,32 @@ public static class Program
     {
         var arguments = new CmdArguments(args);
 
-        var productRecords = CsvUtils.ReadProductCsv(arguments.ProductsPath).ToList();
-        var supplierRecords = CsvUtils.ReadSupplierCsv(arguments.SuppliersPath).ToList();
+        var productRecords = CsvUtils.ReadCsv<ProductRecord>(
+            arguments.ProductsPath, ", ",
+            fields => new ProductRecord
+            {
+                Id = GenericConverter.Parse<int>(fields[0]),
+                ProductName = fields[1].Trim(),
+                Description = fields[2].Trim(),
+                Price = fields[3].Trim(),
+                Quantity = GenericConverter.Parse<int>(fields[4]),
+                Status = GenericConverter.Parse<char>(fields[5]),
+                SupplierId = GenericConverter.Parse<int>(fields[6])
+            }
+            ).ToList();
+        
+        var supplierRecords = CsvUtils.ReadCsv<SupplierRecord>(
+            arguments.SuppliersPath,
+            ", ",
+            fields => new SupplierRecord
+            {
+                SupplierId = GenericConverter.Parse<int>(fields[0]),
+                SupplierName = fields[1].Trim(),
+                Address = fields[2].Trim(),
+                Phone = fields[3].Trim(),
+                Email = fields[4].Trim()
+            }
+            ).ToList();
         
         var inventory = JoinRecordsOnSupplierId(productRecords, supplierRecords);
         

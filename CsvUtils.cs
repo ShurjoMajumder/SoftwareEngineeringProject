@@ -8,6 +8,35 @@ namespace SoftwareEngineeringProject;
 /// </summary>
 public static class CsvUtils
 {
+
+    /// <summary>
+    /// Generic function that reads a CSV file.
+    /// </summary>
+    /// <param name="path">Path to CSV.</param>
+    /// <param name="delim">Delimiter.</param>
+    /// <param name="mappingFunc">Function that maps the fields to an object type.</param>
+    /// <typeparam name="TRecord">Object type</typeparam>
+    /// <returns>List of objects</returns>
+    /// <exception cref="Exception">Invalid data format.</exception>
+    public static IEnumerable<TRecord> ReadCsv<TRecord>(in string path, in string delim, Func<string[], TRecord> mappingFunc)
+    {
+        using var parser = new TextFieldParser(path);
+        parser.TextFieldType = FieldType.Delimited;
+        parser.SetDelimiters(delim);
+
+        var records = new List<TRecord>();
+
+        while (!parser.EndOfData)
+        {
+            var fields = parser.ReadFields();
+            if (fields == null) throw new Exception("Invalid CSV data");
+            
+            records.Add(mappingFunc(fields));
+        }
+        
+        return records;
+    }
+    
     /// <summary>
     /// Reads product CSV file.
     /// </summary>
@@ -19,7 +48,7 @@ public static class CsvUtils
         using var parser = new TextFieldParser(path);
         parser.TextFieldType = FieldType.Delimited;
         parser.SetDelimiters(", ");
-
+        
         var records = new List<ProductRecord>();
         
         while (!parser.EndOfData)
@@ -56,12 +85,12 @@ public static class CsvUtils
         parser.SetDelimiters(", ");
 
         var records = new List<SupplierRecord>();
-        
+
         while (!parser.EndOfData)
         {
             var fields = parser.ReadFields();
             if (fields == null) throw new ArgumentException("Invalid CSV data.");
-            
+
             var record = new SupplierRecord
             {
                 SupplierId = GenericConverter.Parse<int>(fields[0]),
@@ -70,7 +99,7 @@ public static class CsvUtils
                 Phone = fields[3].Trim(),
                 Email = fields[4].Trim()
             };
-            
+
             records.Add(record);
         }
         return records;
