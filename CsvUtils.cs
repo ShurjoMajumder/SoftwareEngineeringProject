@@ -8,7 +8,6 @@ namespace SoftwareEngineeringProject;
 /// </summary>
 public static class CsvUtils
 {
-
     /// <summary>
     /// Generic function that reads a CSV file.
     /// </summary>
@@ -34,74 +33,6 @@ public static class CsvUtils
             records.Add(mappingFunc(fields));
         }
         
-        return records;
-    }
-    
-    /// <summary>
-    /// Reads product CSV file.
-    /// </summary>
-    /// <param name="path">Path to file.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    public static IEnumerable<ProductRecord> ReadProductCsv(in string path)
-    {
-        using var parser = new TextFieldParser(path);
-        parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(", ");
-        
-        var records = new List<ProductRecord>();
-        
-        while (!parser.EndOfData)
-        {
-            var fields = parser.ReadFields();
-            if (fields == null) throw new ArgumentException("Invalid CSV data.");
-            
-            var record = new ProductRecord
-            {
-                Id = GenericConverter.Parse<int>(fields[0]),
-                ProductName = fields[1].Trim(),
-                Description = fields[2].Trim(),
-                Price = fields[3].Trim(),
-                Quantity = GenericConverter.Parse<int>(fields[4]),
-                Status = GenericConverter.Parse<char>(fields[5]),
-                SupplierId = GenericConverter.Parse<int>(fields[6])
-            };
-            
-            records.Add(record);
-        }
-        return records;
-    }
-
-    /// <summary>
-    /// Reads supplier CSV file.
-    /// </summary>
-    /// <param name="path">Path to file.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    public static IEnumerable<SupplierRecord> ReadSupplierCsv(in string path)
-    {
-        using var parser = new TextFieldParser(path);
-        parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(", ");
-
-        var records = new List<SupplierRecord>();
-
-        while (!parser.EndOfData)
-        {
-            var fields = parser.ReadFields();
-            if (fields == null) throw new ArgumentException("Invalid CSV data.");
-
-            var record = new SupplierRecord
-            {
-                SupplierId = GenericConverter.Parse<int>(fields[0]),
-                SupplierName = fields[1].Trim(),
-                Address = fields[2].Trim(),
-                Phone = fields[3].Trim(),
-                Email = fields[4].Trim()
-            };
-
-            records.Add(record);
-        }
         return records;
     }
 
