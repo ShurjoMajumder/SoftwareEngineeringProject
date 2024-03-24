@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.VisualBasic.FileIO;
 using SoftwareEngineeringProject;
 
