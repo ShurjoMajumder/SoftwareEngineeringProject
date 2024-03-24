@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.VisualBasic.FileIO;
 
 namespace SoftwareEngineeringProject;
 
@@ -13,11 +12,11 @@ public static class CsvUtils
     /// </summary>
     /// <param name="path">Path to CSV.</param>
     /// <param name="delim">Delimiter.</param>
-    /// <param name="mappingFunc">Function that maps the fields to an object type.</param>
+    /// <param name="mapper">Function that maps the fields to an object type.</param>
     /// <typeparam name="TRecord">Object type</typeparam>
     /// <returns>List of objects</returns>
     /// <exception cref="Exception">Invalid data format.</exception>
-    public static IEnumerable<TRecord> ReadCsv<TRecord>(in string path, in string delim, Func<string[], TRecord> mappingFunc)
+    public static IEnumerable<TRecord> ReadCsv<TRecord>(in string path, in string delim, Func<string[], TRecord> mapper)
     {
         using var parser = new TextFieldParser(path);
         parser.TextFieldType = FieldType.Delimited;
@@ -30,7 +29,7 @@ public static class CsvUtils
             var fields = parser.ReadFields();
             if (fields == null) throw new Exception("Invalid CSV data");
             
-            records.Add(mappingFunc(fields));
+            records.Add(mapper(fields));
         }
         
         return records;
