@@ -37,13 +37,18 @@ internal class CmdArguments
         InputSuppliersPath,
         InputOutputPath,
     }
-    
+
     /// <summary>
     /// Parses command line arguments, and returns a CmdArguments object containing the input paths, output path,
     /// and whether logging is enabled.
     /// </summary>
     /// <param name="args"></param>
-    public CmdArguments(in IEnumerable<string> args)
+    public static CmdArguments ParseCmdArguments(in IEnumerable<string> args)
+    {
+        return new CmdArguments(args);
+    }
+    
+    private CmdArguments(in IEnumerable<string> args)
     {
         Logging = true;
         _inputState = InputState.InputDefault;

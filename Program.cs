@@ -13,7 +13,7 @@ public static class Program
     /// </param>
     public static void Main(string[] args)
     {
-        var arguments = new CmdArguments(args);
+        var arguments = CmdArguments.ParseCmdArguments(args);
 
         var productRecords = CsvUtils.ReadCsv<ProductRecord>(
             arguments.ProductsPath, ", ",
