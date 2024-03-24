@@ -4,7 +4,7 @@ using SoftwareEngineeringProject;
 
 namespace SoftwareEngineeringProjectTesting;
 
-public class Testing
+public static class Testing
 {
     /// <summary>
     /// Reads product CSV file.
