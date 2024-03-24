@@ -3,7 +3,7 @@
 /// <summary>
 /// Parses the command line arguments.
 /// </summary>
-public class CmdArguments
+internal class CmdArguments
 {
     /// <summary>
     /// Logging is enabled/disabled.
