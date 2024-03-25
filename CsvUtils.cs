@@ -12,7 +12,7 @@ public static class CsvUtils
     /// </summary>
     /// <param name="path">Path to CSV.</param>
     /// <param name="delim">Delimiter.</param>
-    /// <param name="mapper">Function that maps the fields to an object type.</param>
+    /// <param name="mapper">Function that maps the fields (string[]) to an object type.</param>
     /// <typeparam name="TRecord">Object type</typeparam>
     /// <returns>List of objects</returns>
     /// <exception cref="Exception">Invalid data format.</exception>
