@@ -13,18 +13,9 @@ public static class Testing
     /// <exception cref="Exception"></exception>
     private static IEnumerable<ProductRecord> ReadProductCsv(in string path)
     {
-        using var parser = new TextFieldParser(path);
-        parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(", ");
-        
-        var records = new List<ProductRecord>();
-        
-        while (!parser.EndOfData)
-        {
-            var fields = parser.ReadFields();
-            if (fields == null) throw new Exception("Invalid CSV data.");
-            
-            var record = new ProductRecord
+        var productRecords = CsvUtils.ReadCsv<ProductRecord>(
+            path, ", ",
+            fields => new ProductRecord
             {
                 Id = GenericConverter.Parse<int>(fields[0]),
                 ProductName = fields[1].Trim(),
@@ -33,11 +24,11 @@ public static class Testing
                 Quantity = GenericConverter.Parse<int>(fields[4]),
                 Status = GenericConverter.Parse<char>(fields[5]),
                 SupplierId = GenericConverter.Parse<int>(fields[6])
-            };
-            
-            records.Add(record);
-        }
-        return records;
+            }
+        ).ToList();
+        
+        
+        return productRecords;
     }
     
     /// <summary>
@@ -48,29 +39,20 @@ public static class Testing
     /// <exception cref="ArgumentException"></exception>
     private static IEnumerable<SupplierRecord> ReadSupplierCsv(in string path)
     {
-        using var parser = new TextFieldParser(path);
-        parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(", ");
-
-        var records = new List<SupplierRecord>();
-
-        while (!parser.EndOfData)
-        {
-            var fields = parser.ReadFields();
-            if (fields == null) throw new ArgumentException("Invalid CSV data.");
-
-            var record = new SupplierRecord
+        var supplierRecords = CsvUtils.ReadCsv<SupplierRecord>(
+            path,
+            ", ",
+            fields => new SupplierRecord
             {
                 SupplierId = GenericConverter.Parse<int>(fields[0]),
                 SupplierName = fields[1].Trim(),
                 Address = fields[2].Trim(),
                 Phone = fields[3].Trim(),
                 Email = fields[4].Trim()
-            };
+            }
+        ).ToList();
 
-            records.Add(record);
-        }
-        return records;
+        return supplierRecords;
     }
     
     public static void Main()
