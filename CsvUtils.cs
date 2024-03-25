@@ -40,7 +40,7 @@ public static class CsvUtils
     /// </summary>
     /// <param name="records">Records to write.</param>
     /// <param name="path">Path to output file.</param>
-    /// <typeparam name="TRecord"></typeparam>
+    /// <typeparam name="TRecord">Record type.</typeparam>
     public static void WriteCsv<TRecord>(in IEnumerable<TRecord> records, string path)
     {
         using var writer = new StreamWriter(path);

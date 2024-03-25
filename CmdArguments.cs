@@ -25,6 +25,16 @@ internal class CmdArguments
     /// </summary>
     public string OutputPath { get; private set; }
     
+    /// <summary>
+    /// Parses command line arguments, and returns a CmdArguments object containing the input paths, output path,
+    /// and whether logging is enabled.
+    /// </summary>
+    /// <param name="args"></param>
+    public static CmdArguments ParseCmdArguments(in IEnumerable<string> args)
+    {
+        return new CmdArguments(args);
+    }
+    
     private InputState _inputState;
     
     /// <summary>
@@ -36,16 +46,6 @@ internal class CmdArguments
         InputProductsPath,
         InputSuppliersPath,
         InputOutputPath,
-    }
-
-    /// <summary>
-    /// Parses command line arguments, and returns a CmdArguments object containing the input paths, output path,
-    /// and whether logging is enabled.
-    /// </summary>
-    /// <param name="args"></param>
-    public static CmdArguments ParseCmdArguments(in IEnumerable<string> args)
-    {
-        return new CmdArguments(args);
     }
     
     private CmdArguments(in IEnumerable<string> args)

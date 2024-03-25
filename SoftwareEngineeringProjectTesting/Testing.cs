@@ -10,7 +10,7 @@ public static class Testing
     /// </summary>
     /// <param name="path">Path to file.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="Exception"></exception>
     private static IEnumerable<ProductRecord> ReadProductCsv(in string path)
     {
         using var parser = new TextFieldParser(path);
@@ -22,7 +22,7 @@ public static class Testing
         while (!parser.EndOfData)
         {
             var fields = parser.ReadFields();
-            if (fields == null) throw new ArgumentException("Invalid CSV data.");
+            if (fields == null) throw new Exception("Invalid CSV data.");
             
             var record = new ProductRecord
             {
